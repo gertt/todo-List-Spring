@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import static com.todolist.util.AppConstants.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
      * This method handles exception errors ,that can be an Internal Server Error
      * when something unexpected has occurred.
      **/
+    @ExceptionHandler(ItemNoFoundExeption.class)
+    public ResponseEntity<Object> springHandleNotFound(ItemNoFoundExeption itemNoFoundExeption) {
+        return buildErrorResponse(itemNoFoundExeption.getMessage(), HttpStatus.OK, null);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleExceptions(Exception exception, WebRequest request) {
@@ -35,7 +41,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<Object> handleExdceptions(ConstraintViolationException constraintViolationException, WebRequest request) {
-        log.error(BAD_REQUEST + "ioException : {}  url : {}", constraintViolationException, ((ServletWebRequest) request).getRequest().getRequestURI());
+        log.error(BAD_REQUEST + "constraintViolationException : {}  url : {}", constraintViolationException, ((ServletWebRequest) request).getRequest().getRequestURI());
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());

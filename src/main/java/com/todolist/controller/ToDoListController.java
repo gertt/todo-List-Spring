@@ -14,8 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
-import java.io.IOException;
-import java.text.ParseException;
 
 import static com.todolist.util.AppConstants.START_SERVICE;
 import static com.todolist.util.AppConstants.STOP_SERVICE;
@@ -44,7 +42,7 @@ public class ToDoListController {
                               @RequestParam @NotNull @Positive Double longitude,
                               @RequestParam @NotEmpty @NotEmpty String date,
                               @RequestParam("file") @NotNull MultipartFile file,
-                              WebRequest request) throws IOException, ParseException {
+                              WebRequest request) {
         log.info(START_SERVICE.concat(((ServletWebRequest) request).getRequest().getRequestURI())
                 .concat(" id: {}, tittle: {}, latitude: {}, longitude: {}, date: {}, file: {}"), id, tittle, latitude, longitude, date, file);
         ItemResponse response = toDoService.saveOrUpdateItem(id, tittle, latitude, longitude, date, file);

@@ -1,17 +1,18 @@
 package com.todolist.service.imp;
 
 import com.todolist.entity.ItemEntity;
+import com.todolist.exeption.ItemNoFoundExeption;
 import com.todolist.model.ItemResponse;
 import com.todolist.repository.TodoRepository;
 import com.todolist.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.todolist.util.AppConstants.SUCCESS;
 import static com.todolist.util.DateUtil.stringToDate;
 
@@ -31,7 +32,7 @@ public class ToDoServiceImp implements ToDoService {
 
     @Override
     @Transactional
-    public ItemResponse saveOrUpdateItem(Long id, String tittle, Double latitude, Double longitude, String date, MultipartFile file) throws IOException, ParseException {
+    public ItemResponse saveOrUpdateItem(Long id, String tittle, Double latitude, Double longitude, String date, MultipartFile file) {
         ItemEntity itemEntity = new ItemEntity();
         itemEntity.setId(id);
         itemEntity.setTittle(tittle);
@@ -47,10 +48,13 @@ public class ToDoServiceImp implements ToDoService {
 
     @Override
     @Transactional
-    public ItemResponse deleteItem(Long id) {
+    public ItemResponse deleteItem(Long id) throws ItemNoFoundExeption {
         ItemEntity itemEntity = new ItemEntity();
         itemEntity.setId(id);
-        todoRepository.delete(itemEntity);
+        if (todoRepository.findById(id).isEmpty())
+            throw new ItemNoFoundExeption(id);
+        else
+            todoRepository.delete(itemEntity);
         return new ItemResponse(true, SUCCESS, null, null);
     }
 }

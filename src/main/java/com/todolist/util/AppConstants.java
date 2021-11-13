@@ -17,4 +17,5 @@ public class AppConstants {
     public static final String ORIGINAL_EXTENSION = "original_extension";
     public static final String SLASH = "/";
     public static final String DOT = ".";
+    public static final String ITEM_NOT_FOUND = "Item id not found :";
 }

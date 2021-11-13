@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,6 @@ public class ToDoListApplication {
     public static void main(String[] args) {
         SpringApplication.run(ToDoListApplication.class, args);
     }
-
 
     @Bean
     public Cloudinary cloudinaryConfig() {
