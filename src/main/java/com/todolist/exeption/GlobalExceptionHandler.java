@@ -51,7 +51,6 @@ public class GlobalExceptionHandler {
                 .map(x -> x.getPropertyPath() + " " + x.getMessage())
                 .collect(Collectors.toList());
         body.put("errors", errors);
-
         return buildErrorResponse(BAD_REQUEST.toString(), BAD_REQUEST, errors);
     }
 
