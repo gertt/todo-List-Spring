@@ -51,7 +51,7 @@ public class ToDoListController {
     }
 
     @DeleteMapping("/delete-item")
-    ResponseEntity<?> deleteItem(@RequestParam Long id, WebRequest request) {
+    ResponseEntity<?> deleteItem(@Positive @NotNull @RequestParam Long id, WebRequest request) {
         log.info(START_SERVICE.concat(((ServletWebRequest) request).getRequest().getRequestURI()).concat(": "), id);
         ItemResponse response = toDoService.deleteItem(id);
         log.info(STOP_SERVICE.concat(((ServletWebRequest) request).getRequest().getRequestURI()).concat(": {}"), response);
