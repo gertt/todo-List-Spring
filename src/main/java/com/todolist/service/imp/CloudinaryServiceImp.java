@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import static com.todolist.util.AppConstants.*;
@@ -19,13 +20,14 @@ public class CloudinaryServiceImp {
     @Autowired
     private Cloudinary cloudinaryConfig;
 
-    @SuppressWarnings("rawtypes")
     @SneakyThrows
-    public String uploadFile(MultipartFile file) {
+    @SuppressWarnings("rawtypes")
+    public String uploadFile(MultipartFile file)  {
         File uploadedFile = convertMultiPartToFile(file);
         Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
-        return SLASH.concat(uploadResult.get(VERSION).toString()
-                .concat(SLASH.concat(uploadResult.get(PUBLIC_ID).toString()))
-                .concat(DOT.concat(uploadResult.get(ORIGINAL_EXTENSION).toString())));
+        String stringBuilder = SLASH.concat(uploadResult.get(VERSION).toString()) +
+                SLASH.concat(uploadResult.get(PUBLIC_ID).toString()) +
+                DOT.concat(uploadResult.get(ORIGINAL_EXTENSION).toString());
+        return stringBuilder;
     }
 }
