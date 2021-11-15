@@ -18,4 +18,6 @@ public class AppConstants {
     public static final String SLASH = "/";
     public static final String DOT = ".";
     public static final String ITEM_NOT_FOUND = "Item id not found :";
+    public static final String URL = "url";
+
 }
