@@ -11,6 +11,6 @@ public class DateUtil {
 
     @SneakyThrows
     public static Date stringToDate(String dateString) {
-            return new SimpleDateFormat(DATE_FORMAT).parse(dateString);
+        return new SimpleDateFormat(DATE_FORMAT).parse(dateString);
     }
 }

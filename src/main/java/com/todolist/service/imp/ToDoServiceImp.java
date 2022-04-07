@@ -5,12 +5,10 @@ import com.todolist.exeption.ItemNoFoundExeption;
 import com.todolist.model.ItemResponse;
 import com.todolist.repository.TodoRepository;
 import com.todolist.service.ToDoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +18,14 @@ import static com.todolist.util.DateUtil.stringToDate;
 @Service
 public class ToDoServiceImp implements ToDoService {
 
-    @Autowired
-    TodoRepository todoRepository;
+    private final TodoRepository todoRepository;
+    private final CloudinaryServiceImp cloudinaryServiceImp;
 
-    @Autowired
-    private CloudinaryServiceImp cloudinaryServiceImp;
+    public ToDoServiceImp(TodoRepository todoRepository, CloudinaryServiceImp cloudinaryServiceImp) {
+        super();
+        this.todoRepository = todoRepository;
+        this.cloudinaryServiceImp = cloudinaryServiceImp;
+    }
 
     @Override
     public ItemResponse showItem() {
@@ -32,8 +33,17 @@ public class ToDoServiceImp implements ToDoService {
     }
 
     @Override
+    public ItemResponse showItemById(Long id) {
+        List<ItemEntity> itemEntityList = new ArrayList<>();
+        ItemEntity itemEntities = todoRepository.findById(id).orElseThrow(() -> new ItemNoFoundExeption(id));
+        itemEntityList.add(itemEntities);
+
+        return new ItemResponse(true, SUCCESS, null, itemEntityList);
+    }
+
+    @Override
     @Transactional
-    public ItemResponse saveOrUpdateItem(Long id, String tittle, Double latitude, Double longitude, String date, MultipartFile file){
+    public ItemResponse saveOrUpdateItem(Long id, String tittle, Double latitude, Double longitude, String date, MultipartFile file) {
         ItemEntity itemEntity = new ItemEntity();
         itemEntity.setId(id);
         itemEntity.setTittle(tittle);

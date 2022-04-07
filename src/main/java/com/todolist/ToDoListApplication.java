@@ -14,6 +14,10 @@ import static com.todolist.util.AppConstants.*;
 @SpringBootApplication
 public class ToDoListApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(ToDoListApplication.class, args);
+    }
+
     @Value("${cloudinary.cloud_name}")
     private String cloudName;
 
@@ -22,10 +26,6 @@ public class ToDoListApplication {
 
     @Value("${cloudinary.api_secret}")
     private String apiSecret;
-
-    public static void main(String[] args) {
-        SpringApplication.run(ToDoListApplication.class, args);
-    }
 
     @Bean
     public Cloudinary cloudinaryConfig() {

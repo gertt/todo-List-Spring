@@ -7,8 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-
-public class ConvertMultipartFile {
+public interface ConvertMultipartFile {
 
     public static File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(Objects.requireNonNull(Objects.requireNonNull(file.getOriginalFilename())));
